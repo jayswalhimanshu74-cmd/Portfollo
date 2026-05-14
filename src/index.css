@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6366f1;
+  --color-primary-light: #818cf8;
+  --color-primary-dark: #4f46e5;
+
+  --color-secondary: #ec4899;
+  --color-secondary-light: #f472b6;
+  --color-secondary-dark: #db2777;
+
+  --color-dark: #0f172a;
+  --color-dark-lighter: #1e293b;
+  --color-dark-darker: #020617;
+
+  --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-outfit: "Outfit", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-gradient-x: gradient-x 15s ease infinite;
+  --animate-gradient-y: gradient-y 15s ease infinite;
+  --animate-gradient-xy: gradient-xy 15s ease infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes gradient-y {
+    0%, 100% { background-size: 400% 400%; background-position: center top; }
+    50% { background-size: 200% 200%; background-position: center bottom; }
+  }
+  @keyframes gradient-x {
+    0%, 100% { background-size: 200% 200%; background-position: left center; }
+    50% { background-size: 200% 200%; background-position: right center; }
+  }
+  @keyframes gradient-xy {
+    0%, 100% { background-size: 400% 400%; background-position: left center; }
+    50% { background-size: 200% 200%; background-position: right center; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  --backdrop-blur-xs: 2px;
+}
+
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-dark-darker text-slate-200 font-inter selection:bg-primary/30 selection:text-white overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-outfit;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .glass-card-hover {
+    @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-semibold 
+           hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] transition-all duration-300 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white font-semibold 
+           hover:bg-white/10 transition-all duration-300 active:scale-95;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold text-center mb-16;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-light to-secondary-light;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-darker;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-all;
+}
+
+/* Scroll Progress Indicator */
+#scroll-progress {
+  @apply fixed top-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary z-[100] transition-all duration-100;
+}
+
+/* Particles Background Container */
+#tsparticles {
+  position: absolute !important;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Custom Animations */
+@keyframes morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+.animate-morph {
+  animation: morph 8s ease-in-out infinite;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
