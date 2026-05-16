@@ -1,9 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
-import { Send, Mail, MapPin, Phone } from 'lucide-react';
 import { portfolioData } from '../../data/portfolioData';
-import SectionWrapper from '../Common/SectionWrapper';
 
 const Contact = () => {
   const formRef = useRef();
@@ -13,11 +10,8 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-
-    // Note: User needs to replace these with their own EmailJS credentials
-    // emailjs.sendForm('SERVICE_ID', 'TEMPLATE_ID', formRef.current, 'PUBLIC_KEY')
     
-    // Simulating success for demonstration
+    // Simulating success
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
@@ -27,125 +21,93 @@ const Contact = () => {
   };
 
   const contactInfo = [
-    { icon: Mail, label: "Email", value: portfolioData.personalInfo.email, href: `mailto:${portfolioData.personalInfo.email}` },
-    { icon: MapPin, label: "Location", value: portfolioData.personalInfo.location, href: "#" },
-    { icon: Phone, label: "Phone", value: "+91 XXXXX XXXXX", href: "tel:+910000000000" },
+    { icon: 'mail', label: "Email", value: portfolioData.personalInfo.email, color: 'text-primary' },
+    { icon: 'location_on', label: "Location", value: portfolioData.personalInfo.location, color: 'text-secondary' },
   ];
 
   return (
-    <SectionWrapper id="contact">
-      <h2 className="section-title">Get In <span className="text-gradient">Touch</span></h2>
+    <section className="py-section-gap px-gutter relative overflow-hidden" id="contact">
+      <div className="hero-blob absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-primary/5 rounded-full"></div>
       
-      <div className="grid lg:grid-cols-3 gap-12">
-        {/* Contact Details */}
-        <div className="lg:col-span-1 space-y-8">
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Let's connect!</h3>
-            <p className="text-slate-400 leading-relaxed mb-8">
-              I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {contactInfo.map((item, i) => (
-              <motion.a
-                key={item.label}
-                href={item.href}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-4 p-4 glass-card border-white/5 hover:border-primary/20 transition-all group"
-              >
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
-                  <item.icon size={24} />
+      <div className="max-w-container-max mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold">Let's Build Something <span className="text-primary">Exceptional</span></h2>
+            <p className="text-lg text-on-surface-variant">Ready to discuss your next big idea or just want to say hi? My inbox is always open.</p>
+            
+            <div className="space-y-6">
+              {contactInfo.map((item, index) => (
+                <div key={index} className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-full glass-card flex items-center justify-center ${item.color}`}>
+                    <span className="material-symbols-outlined">{item.icon}</span>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em]">{item.label}</p>
+                    <p className="font-medium text-on-surface">{item.value}</p>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs text-slate-500 font-bold uppercase tracking-widest">{item.label}</div>
-                  <div className="text-white font-medium">{item.value}</div>
-                </div>
-              </motion.a>
-            ))}
-          </div>
-
-          <div className="pt-8">
-            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-4 text-center lg:text-left">Follow Me</h4>
-            <div className="flex justify-center lg:justify-start gap-4">
-              {portfolioData.personalInfo.socials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  className="w-10 h-10 glass-card flex items-center justify-center text-slate-400 hover:text-white hover:bg-primary transition-all border-white/5"
-                  title={social.name}
-                >
-                  <social.icon size={20} />
-                </a>
               ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
 
-        {/* Contact Form */}
-        <div className="lg:col-span-2">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="glass-card p-8 md:p-12 border-white/5 shadow-2xl relative overflow-hidden"
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="glass-card p-8 md:p-10 rounded-[2.5rem]"
           >
-            {/* Background flourish */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 blur-3xl rounded-full" />
-            
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 relative z-10">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-400 ml-1">Your Name</label>
-                  <input
-                    type="text"
-                    name="user_name"
+                  <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Full Name</label>
+                  <input 
+                    type="text" 
                     required
                     placeholder="John Doe"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-primary transition-all text-white"
+                    className="w-full bg-surface-container/50 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-colors"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-400 ml-1">Your Email</label>
-                  <input
-                    type="email"
-                    name="user_email"
+                  <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Email</label>
+                  <input 
+                    type="email" 
                     required
                     placeholder="john@example.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-primary transition-all text-white"
+                    className="w-full bg-surface-container/50 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-colors"
                   />
                 </div>
               </div>
-
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-400 ml-1">Message</label>
-                <textarea
-                  name="message"
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Subject</label>
+                <input 
+                  type="text" 
                   required
-                  rows="5"
-                  placeholder="Tell me about your project..."
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-primary transition-all text-white resize-none"
+                  placeholder="Project Discussion"
+                  className="w-full bg-surface-container/50 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-colors"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Message</label>
+                <textarea 
+                  required
+                  rows="4" 
+                  placeholder="How can I help you?"
+                  className="w-full bg-surface-container/50 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 transition-colors"
                 ></textarea>
               </div>
-
-              <button
-                type="submit"
+              <button 
+                type="submit" 
                 disabled={loading}
-                className={`w-full py-5 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
-                  success 
-                    ? 'bg-green-500 text-white' 
-                    : 'bg-gradient-to-r from-primary to-secondary text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.5)]'
-                }`}
+                className="w-full bg-primary text-on-primary py-4 rounded-xl font-bold uppercase tracking-widest glow-blue hover:opacity-90 transition-all flex justify-center items-center gap-2 disabled:opacity-50"
               >
-                {loading ? (
-                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : success ? (
-                  "Message Sent Successfully!"
-                ) : (
+                {loading ? 'Sending...' : success ? 'Message Sent!' : (
                   <>
-                    Send Message
-                    <Send size={20} />
+                    Send Message <span className="material-symbols-outlined text-[18px]">send</span>
                   </>
                 )}
               </button>
@@ -153,7 +115,7 @@ const Contact = () => {
           </motion.div>
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 };
 

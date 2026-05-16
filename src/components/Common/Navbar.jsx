@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code2 } from 'lucide-react';
 
-const Navbar = () => {
+const Navbar = ({ isDarkMode, toggleDarkMode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -15,84 +14,92 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
+    { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
     { name: 'Experience', href: '#experience' },
+    { name: 'Projects', href: '#projects' },
     { name: 'Contact', href: '#contact' },
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-dark-darker/80 backdrop-blur-lg border-b border-white/10 py-4' : 'bg-transparent py-6'
-    }`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        <motion.a 
-          href="#"
-          initial={{ opacity: 1, x: -20 }}
+    <header 
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ease-in-out border-b ${
+        isScrolled 
+          ? 'bg-surface/70 backdrop-blur-xl border-outline/10 py-3 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]' 
+          : 'bg-transparent border-transparent py-5'
+      }`}
+    >
+      <div className="flex justify-between items-center px-gutter max-w-container-max mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-2 group"
+          className="text-2xl font-bold text-primary"
         >
-          <div className="p-2 bg-gradient-to-br from-primary to-secondary rounded-lg group-hover:rotate-12 transition-transform duration-300">
-            <Code2 size={24} className="text-white" />
-          </div>
-          <span className="text-xl font-bold tracking-tight">Himanshu<span className="text-primary"></span></span>
-        </motion.a>
+          HJ
+        </motion.div>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link, i) => (
-            <motion.a
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a
               key={link.name}
               href={link.href}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group"
+              className="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors relative group"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full" />
-            </motion.a>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+            </a>
           ))}
-        </div>
+        </nav>
 
-        {/* Mobile Toggle */}
-        <button 
-          className="md:hidden text-white p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={toggleDarkMode}
+            className="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform p-2 rounded-full hover:bg-primary/10"
+          >
+            {isDarkMode ? 'light_mode' : 'dark_mode'}
+          </button>
+          <button className="hidden sm:block bg-primary text-on-primary px-6 py-2 rounded-full text-sm font-semibold glow-blue hover:opacity-90 transition-all">
+            Resume
+          </button>
+          
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden material-symbols-outlined text-on-surface"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? 'close' : 'menu'}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-dark-lighter border-b border-white/10 overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden absolute top-full left-0 w-full bg-surface-container/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl"
           >
-            <div className="flex flex-col p-6 gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-medium text-slate-300 hover:text-white"
-                >
-                  {link.name}
-                </a>
-              ))}
-              <button className="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold">
-                Hire Me
-              </button>
-            </div>
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-lg font-medium text-on-surface-variant hover:text-primary"
+              >
+                {link.name}
+              </a>
+            ))}
+            <button className="w-full bg-primary text-on-primary py-3 rounded-xl font-semibold mt-2">
+              Resume
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };
 

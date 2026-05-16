@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Code2 } from 'lucide-react';
 
 const PageLoader = () => {
   return (
@@ -7,7 +6,7 @@ const PageLoader = () => {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="fixed inset-0 z-[10000] bg-dark-darker flex flex-col items-center justify-center"
+      className="fixed inset-0 z-[10000] bg-surface flex flex-col items-center justify-center"
     >
       <div className="relative">
         <motion.div
@@ -24,7 +23,7 @@ const PageLoader = () => {
           transition={{ duration: 0.5 }}
           className="absolute inset-0 flex items-center justify-center"
         >
-          <Code2 size={40} className="text-white" />
+          <span className="text-3xl font-bold text-primary">HJ</span>
         </motion.div>
       </div>
       <motion.div
@@ -39,7 +38,7 @@ const PageLoader = () => {
           className="h-full w-1/2 bg-white/20"
         />
       </motion.div>
-      <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.3em] mt-4">Loading Experience</p>
+      <p className="text-on-surface-variant text-[10px] font-bold uppercase tracking-[0.3em] mt-4">Initializing Experience</p>
     </motion.div>
   );
 };

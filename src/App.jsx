@@ -5,57 +5,58 @@ import Hero from './components/Hero/Hero';
 import About from './components/About/About';
 import Skills from './components/Skills/Skills';
 import Timeline from './components/Experience/Timeline';
+import Education from './components/Education/Education';
 import Projects from './components/Projects/Projects';
 import Achievements from './components/Achievements/Achievements';
-import Resume from './components/Resume/Resume';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
-import CustomCursor from './components/Common/CustomCursor';
 import PageLoader from './components/Common/PageLoader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) return savedTheme === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   useEffect(() => {
-    // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
-
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const currentScroll = window.scrollY;
-      setScrollProgress((currentScroll / totalScroll) * 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', handleScroll);
-    };
+    }, 1500);
+    return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => setIsDarkMode(prev => !prev);
+
   return (
-    <div className="relative">
+    <div className="relative bg-background text-on-surface selection:bg-primary/30 selection:text-white transition-colors duration-300">
       <AnimatePresence>
         {isLoading && <PageLoader key="loader" />}
       </AnimatePresence>
 
       {!isLoading && (
         <>
-          <div id="scroll-progress" style={{ width: `${scrollProgress}%` }} />
-          <CustomCursor />
-          <Navbar />
+          <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
           
           <main>
             <Hero />
             <About />
             <Skills />
-            {/* <Timeline /> */}
+            <Timeline />
+            <Education />
             <Projects />
-            {/* <Achievements /> */}
-            <Resume />
+            <Achievements />
             <Contact />
           </main>
 

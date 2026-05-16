@@ -1,70 +1,54 @@
 import { motion } from 'framer-motion';
 import { portfolioData } from '../../data/portfolioData';
-import SectionWrapper from '../Common/SectionWrapper';
 
 const About = () => {
   const { personalInfo } = portfolioData;
 
   return (
-    <SectionWrapper id="about">
-      <div className="grid md:grid-cols-2 gap-16 items-center">
-        <div className="order-2 md:order-1">
-          <h2 className="text-3xl md:text-5xl font-bold mb-8">
-            Building Digital Experiences <br />
-            <span className="text-gradient">With Passion</span>
-          </h2>
-          <p className="text-slate-400 text-lg leading-relaxed mb-10">
-            {personalInfo.about}
-          </p>
+    <section className="py-section-gap px-gutter bg-surface-container-lowest" id="about">
+      <div className="max-w-container-max mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-7 space-y-6"
+          >
+            <div className="inline-block px-4 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-bold tracking-widest uppercase">
+              ABOUT ME
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-on-surface">
+              Architecting Digital <span className="text-primary">Ecosystems</span>
+            </h2>
+            <p className="text-lg text-on-surface-variant leading-relaxed">
+              {personalInfo.about}
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-2 gap-6">
-            {personalInfo.stats.map((stat, i) => (
+          <div className="lg:col-span-5 grid grid-cols-2 gap-4">
+            {personalInfo.stats.map((stat, index) => (
               <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="glass-card p-6 border-white/5 hover:border-primary/20 transition-colors"
+                transition={{ delay: index * 0.1 }}
+                className={`glass-card p-6 rounded-2xl space-y-2 border-t-2 ${
+                  index % 2 === 0 ? 'border-primary/30' : 'border-secondary/30'
+                }`}
               >
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
-                  <Counter value={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">
+                <h3 className={`text-3xl font-bold ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`}>
+                  {stat.value}{stat.suffix}
+                </h3>
+                <p className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
                   {stat.label}
-                </div>
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
-
-        <div className="order-1 md:order-2 relative">
-          <div className="aspect-square rounded-3xl overflow-hidden glass-card p-3 border-white/10">
-            <img 
-              src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1000&auto=format&fit=crop" 
-              alt="Workspace"
-              className="w-full h-full object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-700"
-            />
-          </div>
-          
-          {/* Decorative elements */}
-          <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/20 blur-3xl rounded-full" />
-          <div className="absolute -top-6 -left-6 w-32 h-32 bg-secondary/20 blur-3xl rounded-full" />
-        </div>
       </div>
-    </SectionWrapper>
-  );
-};
-
-const Counter = ({ value, suffix = "" }) => {
-  return (
-    <motion.span
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-    >
-      {value}{suffix}
-    </motion.span>
+    </section>
   );
 };
 
